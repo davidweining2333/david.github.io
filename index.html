@@ -5,49 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculate Area</title>
     <style>
+        #shapeSelect{
+            margin-bottom: 20px;
+        }
         .circle {
             width: 100px;
             height: 100px;
             border: 1px solid black;
-            border-radius: 100px;
+            border-radius: 100%;
+            margin: 0 auto;
+            margin-bottom: 20px;
         }
 
         .square {
+            margin: 0 auto;
             width: 100px;
             height: 100px;
             border: 1px solid black;
+            margin-bottom: 20px;
         }
         .rectangle {
-            width: 100px;
-            height: 200px;
+            margin: 0 auto;
+            width: 200px;
+            height: 100px;
             border: 1px solid black;
+            margin-bottom: 20px;
+        }
+        .squareArea,.rectangleArea {
+            display: none;
+        }
+        html,body {
+            height: 100%;
+        }
+        .container {
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .resultArea {
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <select name="" id="shapeSelect">
-        <option value="circle">Circle</option>
-        <option value="square">Square</option>
-        <option value="rectangle">Rectangle</option>
-    </select>
-    <div class="circleArea">
-        <div class="circle"></div>
-        <input type="number">
+    <div class="container">
+        <select name="" id="shapeSelect">
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+            <option value="rectangle">Rectangle</option>
+        </select>
+        <div>
+            <div class="circleArea shapeItem">
+                <div class="circle"></div>
+                <span>radius</span><input type="number"  class="radius" value="0">
+            </div>
+            <div class="squareArea shapeItem">
+                <div class="square"></div>
+                <span>side</span><input type="number" value="0">
+            </div>
+            <div class="rectangleArea shapeItem">
+                <div class="rectangle"></div>
+                <span>width</span><input type="number" class="rectangleWidth" value="0">
+                <span>length</span> <input type="number" class="rectangleHeight" value="0">
+            </div>
+        </div>
+        <div class="resultArea">
+            <span>area =</span><span id="resultInput" class="result">0</span>
+        </div>
     </div>
-    <div class="SquareArea">
-        <div class="square"></div>
-        <input type="number">
-    </div>
-    <div class="RectangleArea">
-        <div class="rectangle"></div>
-        <input type="number" class="rectangleWidth">
-        <input type="number" class="rectangleHeight">
-    </div>
-    <div class="result"></div>
     <script>
+        var currentshape = "circle";
         shapeSelect.onchange = function () {
-            console.log(arguments);
+            currentshape = event.target.value;
+            refreshAreasDisplay();
         }
+        document.querySelectorAll(".shapeItem input").forEach(item => {
+            item.onkeyup = function () {
+                refreshResult(this.value);
+            }
+            item.onfocus = function () {
+                if (!this.value || this.value == "0") {
+                    this.value = "";
+                }
+            }
+        });
+        function refreshAreasDisplay () {
+            document.querySelectorAll(".shapeItem").forEach((item)=> {
+                item.setAttribute("style",`display:${item.className.includes(currentshape) ? 'block':'none'}`);
+            });
+            resultInput.innerHTML = "0";
+        }
+
+        function refreshResult(value) {
+            let param,param1,result;
+            switch (currentshape) {
+                case 'circle':
+                    result = value * value + "π";
+                    break;
+                case 'square':
+                    result = value * value;
+                    break;
+                case 'rectangle':
+                    let tempValueArray = Array.prototype.slice.call(document.querySelectorAll(`.shapeItem.${currentshape}Area input`)).map(item => item.value);
+                    result = tempValueArray[0] * tempValueArray[1];
+                    break;
+            }
+            resultInput.innerHTML = result;
+        }
+        refreshAreasDisplay();
     </script>
 </body>
 </html>

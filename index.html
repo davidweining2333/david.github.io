@@ -3,9 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculate Area</title>
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            border-radius: 100px;
+        }
+
+        .square {
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+        }
+        .rectangle {
+            width: 100px;
+            height: 200px;
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
-    test
+    <select name="" id="shapeSelect">
+        <option value="circle">Circle</option>
+        <option value="square">Square</option>
+        <option value="rectangle">Rectangle</option>
+    </select>
+    <div class="circleArea">
+        <div class="circle"></div>
+        <input type="number">
+    </div>
+    <div class="SquareArea">
+        <div class="square"></div>
+        <input type="number">
+    </div>
+    <div class="RectangleArea">
+        <div class="rectangle"></div>
+        <input type="number" class="rectangleWidth">
+        <input type="number" class="rectangleHeight">
+    </div>
+    <div class="result"></div>
+    <script>
+        shapeSelect.onchange = function () {
+            console.log(arguments);
+        }
+    </script>
 </body>
 </html>
